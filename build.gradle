@@ -1,0 +1,6 @@
+ext.artifactId = 'spring-petclinic-dynamodb'
+group = 'com.github.allen.parslow'
+
+allprojects {
+    ext.gradleScriptsDir = "${project.rootDir}/gradle/scripts"
+}

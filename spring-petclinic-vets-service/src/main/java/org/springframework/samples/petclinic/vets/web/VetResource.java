@@ -16,14 +16,16 @@
 package org.springframework.samples.petclinic.vets.web;
 
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
-
 import org.springframework.samples.petclinic.vets.model.Vet;
 import org.springframework.samples.petclinic.vets.model.VetRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import java.util.List;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 /**
  * @author Juergen Hoeller
@@ -31,16 +33,17 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Ken Krebs
  * @author Arjen Poutsma
  * @author Maciej Szarlinski
+ * @author Allen Parslow
  */
-@RequestMapping("/vets")
-@RestController
-@RequiredArgsConstructor
+@Path("/vets")
+@Produces(APPLICATION_JSON)
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
 class VetResource {
 
     private final VetRepository vetRepository;
 
-    @GetMapping
-    public List<Vet> showResourcesVetList() {
+    @GET
+    public List<Vet> findAll() {
         return vetRepository.findAll();
     }
 }

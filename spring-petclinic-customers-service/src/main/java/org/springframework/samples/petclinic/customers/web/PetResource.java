@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.samples.petclinic.customers.model.*;
-import org.springframework.samples.petclinic.monitoring.Monitored;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,7 +46,6 @@ class PetResource {
 
     @PostMapping("/owners/{ownerId}/pets")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Monitored
     public void processCreationForm(
         @RequestBody PetRequest petRequest,
         @PathVariable("ownerId") int ownerId) {
@@ -61,7 +59,6 @@ class PetResource {
 
     @PutMapping("/owners/*/pets/{petId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Monitored
     public void processUpdateForm(@RequestBody PetRequest petRequest) {
         save(petRepository.findOne(petRequest.getId()), petRequest);
     }
@@ -79,8 +76,8 @@ class PetResource {
     }
 
     @GetMapping("owners/*/pets/{petId}")
-    public PetDetails findPet(@PathVariable("petId") int petId) {
-        return new PetDetails(petRepository.findOne(petId));
+    public Pet findPet(@PathVariable("petId") int petId) {
+        return petRepository.findOne(petId);
     }
 
 }

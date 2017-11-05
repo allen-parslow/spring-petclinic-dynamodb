@@ -15,7 +15,7 @@
  */
 package org.springframework.samples.petclinic.vets.model;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 /**
  * Repository class for <code>Vet</code> domain objects All method names are compliant with Spring Data naming
@@ -26,6 +26,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Sam Brannen
  * @author Michael Isvy
  * @author Maciej Szarlinski
+ * @author Allen Parslow
  */
-public interface VetRepository extends JpaRepository<Vet, Integer> {
+public interface VetRepository {
+
+    List<Vet> findAll();
 }

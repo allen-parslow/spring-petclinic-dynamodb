@@ -1,0 +1,48 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:2.0.0'
+    }
+}
+
+
+project.ext.dockerTag = project.version.contains('SNAPSHOT') ? 'latest': project.version
+
+// TODO try this plugin again: https://github.com/bmuschko/gradle-docker-plugin
+task buildDocker(type:Exec) {
+    //on linux
+    commandLine 'docker', 'build', '--build-arg', "ARTIFACT_ID=${project.name}", '--build-arg', "ARTIFACT_VERSION=${project.version}",  '-t', "${project.name}", '.'
+}
+buildDocker.dependsOn 'build'
+
+task runDocker(type:Exec) {
+    //on linux
+    commandLine 'docker', 'run', '-p', "8888:8080", "${project.name}"
+}
+runDocker.dependsOn 'buildDocker'
+
+gretty {
+    integrationTestTask = 'integrationTest'
+    httpPort = 8081
+    debugPort = 5005
+    debugSuspend = true
+    jvmArgs = ['-Dspring.profiles.active=integration']
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+        resources.srcDir file('src/integration-test/resources')
+    }
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}

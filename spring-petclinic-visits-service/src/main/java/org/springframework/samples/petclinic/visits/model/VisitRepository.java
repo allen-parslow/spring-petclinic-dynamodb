@@ -17,7 +17,6 @@ package org.springframework.samples.petclinic.visits.model;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Repository class for <code>Visit</code> domain objects All method names are compliant with Spring Data naming conventions so this interface can easily be extended for Spring
@@ -28,9 +27,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Sam Brannen
  * @author Michael Isvy
  * @author Maciej Szarlinski
+ * @author Allen Parslow
  */
-public interface VisitRepository extends JpaRepository<Visit, Integer> {
+public interface VisitRepository {
 
     List<Visit> findByPetId(int petId);
 
+    void save(Visit visit);
 }

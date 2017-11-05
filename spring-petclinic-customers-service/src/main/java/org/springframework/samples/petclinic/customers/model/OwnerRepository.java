@@ -15,7 +15,7 @@
  */
 package org.springframework.samples.petclinic.customers.model;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 /**
  * Repository class for <code>Owner</code> domain objects All method names are compliant with Spring Data naming
@@ -26,5 +26,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Sam Brannen
  * @author Michael Isvy
  * @author Maciej Szarlinski
+ * @author Allen Parslow
  */
-public interface OwnerRepository extends JpaRepository<Owner, Integer> { }
+public interface OwnerRepository {
+
+    Owner findOne(int ownerId);
+
+    Owner save(Owner owner);
+
+    List<Owner> findAll();
+}

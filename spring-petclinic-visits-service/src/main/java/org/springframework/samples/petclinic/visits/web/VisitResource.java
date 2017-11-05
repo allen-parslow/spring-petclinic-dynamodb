@@ -17,14 +17,15 @@ package org.springframework.samples.petclinic.visits.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.samples.petclinic.visits.model.Visit;
 import org.springframework.samples.petclinic.visits.model.VisitRepository;
-import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.ws.rs.*;
 import java.util.List;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 /**
  * @author Juergen Hoeller
@@ -32,27 +33,30 @@ import java.util.List;
  * @author Arjen Poutsma
  * @author Michael Isvy
  * @author Maciej Szarlinski
+ * @author Allen Parslow
  */
-@RestController
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
 @Slf4j
+@Consumes(APPLICATION_JSON)
+@Produces(APPLICATION_JSON)
 public class VisitResource {
 
     private final VisitRepository visitRepository;
 
-    @PostMapping("owners/*/pets/{petId}/visits")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @POST
+    @Path("owners/*/pets/{petId}/visits")
     public void create(
-        @Valid @RequestBody Visit visit,
-        @PathVariable("petId") int petId) {
+        @Valid Visit visit,
+        @PathParam("petId") int petId) {
 
         visit.setPetId(petId);
         log.info("Saving visit {}", visit);
         visitRepository.save(visit);
     }
 
-    @GetMapping("owners/*/pets/{petId}/visits")
-    public List<Visit> visits(@PathVariable("petId") int petId) {
+    @GET
+    @Path("owners/*/pets/{petId}/visits")
+    public List<Visit> visits(@PathParam("petId") int petId) {
         return visitRepository.findByPetId(petId);
     }
 }

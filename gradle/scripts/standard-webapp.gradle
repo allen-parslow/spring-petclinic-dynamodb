@@ -1,0 +1,70 @@
+apply from: "${project.ext.gradleScriptsDir}/standard-java.gradle"
+
+apply plugin: 'war'
+
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+        resources.srcDir file('src/integration-test/resources')
+    }
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+task integrationTest(type: Test) {
+    description = 'Runs the integration tests'
+    group = 'verification'
+    testClassesDirs = sourceSets.integrationTest.output
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+}
+
+dependencies {
+
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+    compile group: 'javax.inject', name: 'javax.inject', version: '1'
+
+    compile group: 'javax.validation', name: 'validation-api', version: '2.0.0.Final'
+
+    // cloud dependencies
+    compile 'com.amazonaws:aws-java-sdk-ec2:1.11.208'
+    compile 'com.amazonaws:aws-java-sdk-ssm:1.11.208'
+
+    // rest dependencies
+    compile group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxrs', version: '3.2.0'
+    compile group: 'org.springframework', name: 'spring-web', version: '4.3.11.RELEASE'
+    compile group: 'com.fasterxml.jackson.jaxrs', name: 'jackson-jaxrs-json-provider', version: '2.9.1'
+
+    // api-implementation dependencies
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.20'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.8.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.8.2'
+
+    // provided dependencies
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+
+    // test dependencies
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.10.0'
+    testCompile group: 'org.springframework', name: 'spring-test', version: '4.3.11.RELEASE'
+
+    integrationTestCompile 'io.rest-assured:rest-assured:3.0.5'
+    integrationTestCompile 'io.rest-assured:json-path:3.0.5'
+}
+
+project.ext.dockerTag = project.version.contains('SNAPSHOT') ? 'latest': project.version
+
+// TODO try this plugin again: https://github.com/bmuschko/gradle-docker-plugin
+task buildDocker(type:Exec) {
+    //on linux
+    commandLine 'docker', 'build', '--build-arg', "ARTIFACT_ID=${project.name}", '--build-arg', "ARTIFACT_VERSION=${project.version}",  '-t', "${project.name}", '.'
+}
+buildDocker.dependsOn 'build'

@@ -1,0 +1,1 @@
+include 'spring-petclinic-customers-service', 'spring-petclinic-vets-service', 'spring-petclinic-visits-service'
