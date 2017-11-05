@@ -1,0 +1,15 @@
+ext.artifactId = 'petclinic-api-core'
+group = 'com.github.allen.parslow'
+
+apply from: "${gradleScriptsDir}/standard-java.gradle"
+
+
+dependencies {
+    // rest dependencies
+    compile group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxrs', version: '3.2.0'
+    compile group: 'org.springframework', name: 'spring-web', version: '4.3.11.RELEASE'
+    compile group: 'com.fasterxml.jackson.jaxrs', name: 'jackson-jaxrs-json-provider', version: '2.9.1'
+
+    // provided dependencies
+    provided group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+}

@@ -1,11 +1,12 @@
 ext.artifactId = 'petclinic-visits'
 group = 'com.github.allen.parslow'
-
+ext.webAppPort = 8083
 
 apply from: "${gradleScriptsDir}/standard-webapp.gradle"
-
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 dependencies {
+    compile project(':petclinic-api-core')
 }
 
 

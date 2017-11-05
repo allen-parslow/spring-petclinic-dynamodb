@@ -17,14 +17,16 @@ package org.springframework.samples.petclinic.customers.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.samples.petclinic.customers.model.Owner;
 import org.springframework.samples.petclinic.customers.model.OwnerRepository;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.ws.rs.*;
 import java.util.List;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 /**
  * @author Juergen Hoeller
@@ -32,36 +34,39 @@ import java.util.List;
  * @author Arjen Poutsma
  * @author Michael Isvy
  * @author Maciej Szarlinski
+ * @author Allen Parslow
  */
-@RequestMapping("/owners")
-@RestController
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Path("/owners")
+@Component
+@Consumes(APPLICATION_JSON)
+@Produces(APPLICATION_JSON)
 @Slf4j
-class OwnerResource {
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
+public class OwnerResource {
 
     private final OwnerRepository ownerRepository;
 
     /**
      * Create Owner
      */
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createOwner(@Valid @RequestBody Owner owner) {
+    @POST
+    public void createOwner(@Valid Owner owner) {
         ownerRepository.save(owner);
     }
 
     /**
      * Read single Owner
      */
-    @GetMapping(value = "/{ownerId}")
-    public Owner findOwner(@PathVariable("ownerId") int ownerId) {
+    @GET
+    @Path(value = "/{ownerId}")
+    public Owner findOwner(@PathParam("ownerId") int ownerId) {
         return ownerRepository.findOne(ownerId);
     }
 
     /**
      * Read List of Owners
      */
-    @GetMapping
+    @GET
     public List<Owner> findAll() {
         return ownerRepository.findAll();
     }
@@ -69,8 +74,9 @@ class OwnerResource {
     /**
      * Update Owner
      */
-    @PutMapping(value = "/{ownerId}")
-    public Owner updateOwner(@PathVariable("ownerId") int ownerId, @Valid @RequestBody Owner ownerRequest) {
+    @PUT
+    @Path("/{ownerId}")
+    public Owner updateOwner(@PathParam("ownerId") int ownerId, @Valid Owner ownerRequest) {
         final Owner ownerModel = ownerRepository.findOne(ownerId);
         // This is done by hand for simplicity purpose. In a real life use-case we should consider using MapStruct.
         ownerModel.setFirstName(ownerRequest.getFirstName());

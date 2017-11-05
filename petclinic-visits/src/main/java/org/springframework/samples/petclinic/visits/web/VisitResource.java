@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.petclinic.visits.model.Visit;
 import org.springframework.samples.petclinic.visits.model.VisitRepository;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -35,16 +36,17 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
  * @author Maciej Szarlinski
  * @author Allen Parslow
  */
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
-@Slf4j
+@Path("visits")
+@Component
 @Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
+@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class VisitResource {
 
     private final VisitRepository visitRepository;
 
     @POST
-    @Path("owners/*/pets/{petId}/visits")
     public void create(
         @Valid Visit visit,
         @PathParam("petId") int petId) {
@@ -55,8 +57,7 @@ public class VisitResource {
     }
 
     @GET
-    @Path("owners/*/pets/{petId}/visits")
-    public List<Visit> visits(@PathParam("petId") int petId) {
-        return visitRepository.findByPetId(petId);
+    public List<Visit> visits() {
+        return visitRepository.findByPetId(1);
     }
 }

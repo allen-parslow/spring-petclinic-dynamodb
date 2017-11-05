@@ -1,10 +1,11 @@
-FROM java:8
-VOLUME /tmp
-ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh wait-for-it.sh
-RUN bash -c 'chmod +x wait-for-it.sh'
-ARG ARTIFACT_NAME
-ADD ${ARTIFACT_NAME}.jar /app.jar
-ENV SPRING_PROFILES_ACTIVE docker
-RUN bash -c 'touch /app.jar'
-EXPOSE 8081
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+FROM tomcat:8
+
+ARG ARTIFACT_ID
+ARG ARTIFACT_VERSION
+
+COPY build/libs/$ARTIFACT_ID-$ARTIFACT_VERSION.war /usr/local/tomcat/webapps/$ARTIFACT_ID.war
+RUN rm -rf /usr/local/tomcat/webapps/host-manager
+RUN rm -rf /usr/local/tomcat/webapps/manager
+RUN rm -rf /usr/local/tomcat/webapps/examples
+
+CMD ["catalina.sh", "run"]
