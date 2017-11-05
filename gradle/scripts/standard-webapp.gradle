@@ -68,3 +68,17 @@ task buildDocker(type:Exec) {
     commandLine 'docker', 'build', '--build-arg', "ARTIFACT_ID=${project.name}", '--build-arg', "ARTIFACT_VERSION=${project.version}",  '-t', "${project.name}", '.'
 }
 buildDocker.dependsOn 'build'
+
+def dockerPort = 8080
+if (project.hasProperty('webAppPort')) {
+    dockerPort = project.getProperty('webAppPort')
+}
+
+task runDocker(type:Exec) {
+    //on linux
+    commandLine 'docker', 'run', '-p', "$dockerPort:8080", "${project.name}"
+}
+runDocker.dependsOn 'buildDocker'
+runDocker.doFirst {
+    println "Running docker on port: $dockerPort "
+}

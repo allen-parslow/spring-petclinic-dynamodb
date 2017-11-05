@@ -1,1 +1,1 @@
-include 'spring-petclinic-customers-service', 'spring-petclinic-vets-service', 'spring-petclinic-visits-service'
+include 'petclinic-customers', 'petclinic-vets', 'petclinic-visits'

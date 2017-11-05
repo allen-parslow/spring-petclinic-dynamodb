@@ -1,8 +1,0 @@
-ext.artifactId = 'spring-petclinic-customers-service'
-group = 'com.github.allen.parslow'
-
-apply from: "${gradleScriptsDir}/standard-webapp.gradle"
-
-
-dependencies {
-}

@@ -1,0 +1,8 @@
+ext.artifactId = 'petclinic-customers'
+group = 'com.github.allen.parslow'
+
+apply from: "${gradleScriptsDir}/standard-webapp.gradle"
+
+
+dependencies {
+}
