@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.customers;
 
-import org.springframework.samples.petclinic.api.core.AbstaractCxfWebAppInitializer;
+import org.springframework.samples.petclinic.api.core.AbstractPetclinicWebAppInitializer;
 
-public class CustomersServiceApplication extends AbstaractCxfWebAppInitializer {
+public class CustomersServiceApplication extends AbstractPetclinicWebAppInitializer {
 }

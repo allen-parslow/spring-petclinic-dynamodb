@@ -9,7 +9,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
 @Slf4j
-public abstract class AbstaractCxfWebAppInitializer implements WebApplicationInitializer {
+public abstract class AbstractPetclinicWebAppInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext container) {

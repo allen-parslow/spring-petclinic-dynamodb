@@ -15,10 +15,21 @@
  */
 package org.springframework.samples.petclinic.vets.model;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.ObjectUtils;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+
+import static org.apache.commons.lang3.ObjectUtils.compare;
 
 /**
  * Simple JavaBean domain object representing a veterinarian.
@@ -28,17 +39,44 @@ import java.util.Set;
  * @author Sam Brannen
  * @author Arjen Poutsma
  * @author Maciej Szarlinski
+ *
  * @author Allen Parslow
  */
 @Getter
 @Setter
-public class Vet {
+@DynamoDBTable(tableName="vets")
+@NoArgsConstructor
+public class Vet implements Comparable<Vet> {
 
-    private Integer id;
+    @DynamoDBHashKey(attributeName="GUID")
+    private String id;
 
     private String firstName;
 
     private String lastName;
 
-    private Set<Specialty> specialties;
+    private List<String> specialties;
+
+    @Override
+    public String toString() {
+        return key();
+    }
+
+    @JsonIgnore
+    @DynamoDBIgnore
+    public String key() {
+        return firstName + ' ' + lastName;
+    }
+
+    @Override
+    public int compareTo(Vet other) {
+        if (other == null) {
+            return -1;
+        }
+        int compare = compare(getLastName(), other.getLastName());
+        if (compare == 0) {
+            compare = compare(getFirstName(), other.getFirstName());
+        }
+        return compare;
+    }
 }

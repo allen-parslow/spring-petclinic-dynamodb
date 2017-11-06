@@ -1,0 +1,21 @@
+project.ext.dynamodbRepoUrl = "https://s3-us-west-2.amazonaws.com/dynamodb-local/release"
+project.ext.dynamodbDependency = 'com.amazonaws:DynamoDBLocal:1.11.86'
+
+repositories {
+    maven {
+        url project.ext.dynamodbRepoUrl
+    }
+}
+
+dependencies {
+    compile "${project.ext.dynamodbDependency}"
+    compile group: 'com.almworks.sqlite4java', name: 'libsqlite4java-linux-amd64', version: '1.0.392'
+}
+
+task startDynamoDb(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.amazonaws.services.dynamodbv2.local.main.ServerRunner'
+
+    args '-port', '8000', '-sharedDb', 'inMemory'
+}
+

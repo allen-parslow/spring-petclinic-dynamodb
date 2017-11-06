@@ -1,7 +1,16 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:2.0.0'
+    }
+}
+
 apply from: "${project.ext.gradleScriptsDir}/standard-java.gradle"
 
 apply plugin: 'war'
-
+apply plugin: org.akhikhl.gretty.GrettyPlugin
 
 sourceSets {
     integrationTest {
@@ -81,4 +90,12 @@ task runDocker(type:Exec) {
 runDocker.dependsOn 'buildDocker'
 runDocker.doFirst {
     println "Running docker on port: $dockerPort "
+}
+
+gretty {
+    integrationTestTask = 'integrationTest'
+    httpPort = dockerPort
+    debugPort = 5005 // TODO needs to be a variable ...
+    debugSuspend = false // TODO should be passed in through gradle command line ...
+    jvmArgs = ['-Dspring.profiles.active=integration']
 }

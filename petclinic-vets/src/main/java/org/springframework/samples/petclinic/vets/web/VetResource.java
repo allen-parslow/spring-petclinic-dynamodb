@@ -37,9 +37,9 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
  * @author Allen Parslow
  */
 @Path("/vets")
+@Component
 @Produces(APPLICATION_JSON)
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
-@Component
 public class VetResource {
 
     private final VetRepository vetRepository;

@@ -5,6 +5,9 @@ apply from: "${gradleScriptsDir}/standard-java.gradle"
 
 
 dependencies {
+    // cloud dependencies
+    compile 'com.amazonaws:aws-java-sdk-dynamodb:1.11.208'
+
     // rest dependencies
     compile group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxrs', version: '3.2.0'
     compile group: 'org.springframework', name: 'spring-web', version: '4.3.11.RELEASE'
