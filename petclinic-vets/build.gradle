@@ -6,4 +6,5 @@ apply from: "${gradleScriptsDir}/standard-webapp.gradle"
 
 dependencies {
     compile project(':petclinic-api-core')
+    testCompile project(':petclinic-api-testing')
 }

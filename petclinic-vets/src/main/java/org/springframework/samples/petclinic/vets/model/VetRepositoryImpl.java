@@ -1,34 +1,23 @@
 package org.springframework.samples.petclinic.vets.model;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
-import com.amazonaws.services.dynamodbv2.datamodeling.ScanResultPage;
-import lombok.RequiredArgsConstructor;
+import org.springframework.samples.petclinic.api.core.dynamodb.AbstractDynamoDBRepository;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Component
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
-public class VetRepositoryImpl implements VetRepository {
+public class VetRepositoryImpl extends AbstractDynamoDBRepository<Vet, String> implements VetRepository {
 
-    private final DynamoDBMapper mapper;
+    @Inject
+    public VetRepositoryImpl(DynamoDBMapper mapper) {
+        super(Vet.class, mapper);
+    }
+
 
     @Override
-    public List<Vet> findAll() {
-        // TODO use Spring Data for DynamoDB
-        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-        ScanResultPage<Vet> scan = mapper.scanPage(Vet.class, scanExpression);
-
-        List<Vet> vets = new ArrayList<>(scan.getResults());
-        Collections.sort(vets);
-
-        return vets;
+    protected Vet toId(String id) {
+        return Vet.builder().id(id).build();
     }
 }
 

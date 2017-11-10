@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.api.core;
+package org.springframework.samples.petclinic.api.core.json;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.*;
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-class LoggingEnumDeserializer extends BeanDeserializerModifier {
+public class LoggingEnumDeserializer extends BeanDeserializerModifier {
     private final Logger logger;
 
     LoggingEnumDeserializer() {

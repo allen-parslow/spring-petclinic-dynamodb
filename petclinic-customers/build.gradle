@@ -7,4 +7,5 @@ apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.p
 
 dependencies {
     compile project(':petclinic-api-core')
+    testCompile project(':petclinic-api-testing')
 }

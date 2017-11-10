@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.api.core;
+package org.springframework.samples.petclinic.api.core.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;

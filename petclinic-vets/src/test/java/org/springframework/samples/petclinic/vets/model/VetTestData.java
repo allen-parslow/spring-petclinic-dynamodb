@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.Arrays.asList;
-import static org.springframework.samples.petclinic.vets.util.FileTestUtils.readJson;
+import static org.springframework.samples.petclinic.api.testing.json.JsonTestUtils.readJson;
 
 @Getter
 @NoArgsConstructor

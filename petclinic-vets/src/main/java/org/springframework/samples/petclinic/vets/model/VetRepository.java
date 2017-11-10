@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.vets.model;
 
+import org.springframework.samples.petclinic.api.core.io.SimpleCrudRepository;
+
 import java.util.List;
 
 /**
@@ -28,7 +30,7 @@ import java.util.List;
  * @author Maciej Szarlinski
  * @author Allen Parslow
  */
-public interface VetRepository {
+public interface VetRepository extends SimpleCrudRepository<Vet, String> {
 
-    List<Vet> findAll();
+    List<Vet> findOnePage();
 }

@@ -1,1 +1,1 @@
-include 'petclinic-customers', 'petclinic-vets', 'petclinic-visits', 'petclinic-api-core'
+include 'petclinic-customers', 'petclinic-vets', 'petclinic-visits', 'petclinic-api-core', 'petclinic-api-testing'

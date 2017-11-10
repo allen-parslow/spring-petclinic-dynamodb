@@ -1,0 +1,14 @@
+ext.artifactId = 'petclinic-api-testing'
+group = 'com.github.allen.parslow'
+
+apply from: "${gradleScriptsDir}/standard-java.gradle"
+
+
+dependencies {
+    compile project(':petclinic-api-core')
+}
+
+dependencies {
+    // rest dependencies
+    compile group: 'com.fasterxml.jackson.jaxrs', name: 'jackson-jaxrs-json-provider', version: '2.9.1'
+}

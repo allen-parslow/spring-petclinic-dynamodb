@@ -1,0 +1,84 @@
+{
+  "items":[
+    {
+      "id":"e5c1da0f-e5a3-4930-ba53-8ba89bb79450",
+      "firstName":"George",
+      "lastName":"Franklin",
+      "address":"110 W. Liberty St.",
+      "city":"Madison",
+      "telephone":"6085551023"
+    },
+    {
+      "id":"dd9dcf1b-a550-44d4-845e-ed1f168da5e6",
+      "firstName":"Betty",
+      "lastName":"Davis",
+      "address":"638 Cardinal Ave.",
+      "city":"Sun Prairie",
+      "telephone":"6085551749"
+    },
+    {
+      "id":"9664e826-48d0-413f-bd26-1c9874b9f631",
+      "firstName":"Eduardo",
+      "lastName":"Rodriquez",
+      "address":"2693 Commerce St.",
+      "city":"McFarland",
+      "telephone":"6085558763"
+    },
+    {
+      "id":"e84f4b32-d063-4ebf-ac36-e1aa38804f78",
+      "firstName":"Harold",
+      "lastName":"Davis",
+      "address":"563 Friendly St.",
+      "city":"Windsor",
+      "telephone":"6085553198"
+    },
+    {
+      "id":"79200e95-73a6-485e-9187-a65ca9ddb612",
+      "firstName":"Peter",
+      "lastName":"McTavish",
+      "address":"2387 S. Fair Way",
+      "city":"Madison",
+      "telephone":"6085552765"
+    },
+    {
+      "id":"efc13e27-94e1-4f30-93f2-b99ce640bcf3",
+      "firstName":"Jean",
+      "lastName":"Coleman",
+      "address":"105 N. Lake St.",
+      "city":"Monona",
+      "telephone":"6085552654"
+    },
+    {
+      "id":"e5be8292-6b9e-4232-9861-e713a087fb9b",
+      "firstName":"Jeff",
+      "lastName":"Black",
+      "address":"1450 Oak Blvd.",
+      "city":"Monona",
+      "telephone":"6085555387"
+    },
+    {
+      "id":"52c948e9-d7da-40bc-86c0-37cfbdb962f8",
+      "firstName":"Maria",
+      "lastName":"Escobito",
+      "address":"345 Maple St.",
+      "city":"Madison",
+      "telephone":"6085557683"
+    },
+    {
+      "id":"de02bea8-2b12-4042-b446-b94201cf751c",
+      "firstName":"David",
+      "lastName":"Schroeder",
+      "address":"2749 Blackhawk Trail",
+      "city":"Madison",
+      "telephone":"6085559435"
+    },
+    {
+      "id":"07317938-ebe1-4ce4-aa34-d3f44f8b0d45",
+      "firstName":"Carlos",
+      "lastName":"Estaban",
+      "address":"2335 Independence La.",
+      "city":"Waunakee",
+      "telephone":"6085555487"
+    }
+  ]
+}

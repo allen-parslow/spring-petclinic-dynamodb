@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.customers.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.petclinic.customers.model.Owner;
@@ -46,45 +47,20 @@ public class OwnerResource {
 
     private final OwnerRepository ownerRepository;
 
-    /**
-     * Create Owner
-     */
     @POST
     public void createOwner(@Valid Owner owner) {
-        ownerRepository.save(owner);
+        ownerRepository.update(owner);
     }
 
-    /**
-     * Read single Owner
-     */
     @GET
     @Path(value = "/{ownerId}")
-    public Owner findOwner(@PathParam("ownerId") int ownerId) {
-        return ownerRepository.findOne(ownerId);
+    public Owner findOwner(@PathParam("ownerId") String ownerId) {
+        return ownerRepository.read(ownerId);
     }
 
-    /**
-     * Read List of Owners
-     */
-    @GET
-    public List<Owner> findAll() {
-        return ownerRepository.findAll();
-    }
-
-    /**
-     * Update Owner
-     */
     @PUT
     @Path("/{ownerId}")
-    public Owner updateOwner(@PathParam("ownerId") int ownerId, @Valid Owner ownerRequest) {
-        final Owner ownerModel = ownerRepository.findOne(ownerId);
-        // This is done by hand for simplicity purpose. In a real life use-case we should consider using MapStruct.
-        ownerModel.setFirstName(ownerRequest.getFirstName());
-        ownerModel.setLastName(ownerRequest.getLastName());
-        ownerModel.setCity(ownerRequest.getCity());
-        ownerModel.setAddress(ownerRequest.getAddress());
-        ownerModel.setTelephone(ownerRequest.getTelephone());
-        log.info("Saving owner {}", ownerModel);
-        return ownerRepository.save(ownerModel);
+    public Owner updateOwner(@PathParam("ownerId") String ownerId, JsonNode patch) {
+        return null;
     }
 }

@@ -15,7 +15,10 @@
  */
 package org.springframework.samples.petclinic.customers.model;
 
+import org.springframework.samples.petclinic.api.core.io.SimpleCrudRepository;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * Repository class for <code>Owner</code> domain objects All method names are compliant with Spring Data naming
@@ -28,11 +31,7 @@ import java.util.List;
  * @author Maciej Szarlinski
  * @author Allen Parslow
  */
-public interface OwnerRepository {
+public interface OwnerRepository extends SimpleCrudRepository<Owner, String> {
 
-    Owner findOne(int ownerId);
-
-    Owner save(Owner owner);
-
-    List<Owner> findAll();
+    List<Owner> findByLastName(String lastName);
 }

@@ -19,9 +19,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Comparator;
@@ -46,6 +44,8 @@ import static org.apache.commons.lang3.ObjectUtils.compare;
 @Setter
 @DynamoDBTable(tableName="vets")
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Vet implements Comparable<Vet> {
 
     @DynamoDBHashKey(attributeName="GUID")
@@ -56,6 +56,10 @@ public class Vet implements Comparable<Vet> {
     private String lastName;
 
     private List<String> specialties;
+
+    public Vet(String id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {

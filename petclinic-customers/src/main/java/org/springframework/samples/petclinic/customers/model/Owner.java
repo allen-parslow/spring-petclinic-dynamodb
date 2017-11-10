@@ -15,9 +15,9 @@
  */
 package org.springframework.samples.petclinic.customers.model;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
@@ -34,12 +34,20 @@ import java.util.Set;
  * @author Maciej Szarlinski
  * @author Allen Parslow
  */
+@DynamoDBTable(tableName="owners")
 @Getter
 @Setter
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Owner {
+    public static final String BY_LAST_NAME = "lastName-GUID-index";
 
-    private Integer id;
+    @DynamoDBHashKey(attributeName="GUID")
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = BY_LAST_NAME, attributeName = "GUID")
+    private String id;
     private String firstName;
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = BY_LAST_NAME)
     private String lastName;
     private String address;
     private String city;
@@ -48,9 +56,16 @@ public class Owner {
     @Digits(fraction = 0, integer = 10)
     private String telephone;
 
+    @JsonIgnore
+    @DynamoDBIgnore
     private Set<Pet> pets;
 
+    public Owner(String id) {
+        this.id = id;
+    }
+
     @JsonIgnore
+    @DynamoDBIgnore
     protected Set<Pet> getPetsInternal() {
         if (this.pets == null) {
             this.pets = new HashSet<>();
@@ -58,9 +73,15 @@ public class Owner {
         return this.pets;
     }
 
-
     @JsonIgnore
     public void addPet(Pet pet) {
         getPetsInternal().add(pet);
     }
+
+    @JsonIgnore
+    @DynamoDBIgnore
+    public String key() {
+        return firstName + ' ' + lastName;
+    }
+
 }

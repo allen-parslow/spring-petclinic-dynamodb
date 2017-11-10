@@ -15,15 +15,19 @@
  */
 package org.springframework.samples.petclinic.vets.web;
 
+import com.amazonaws.services.s3.model.Owner;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.samples.petclinic.api.core.rest.RestOperations;
 import org.springframework.samples.petclinic.vets.model.Vet;
 import org.springframework.samples.petclinic.vets.model.VetRepository;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -43,9 +47,18 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 public class VetResource {
 
     private final VetRepository vetRepository;
+    private final RestOperations restOperations;
+
+    @PATCH
+    @Path("/{id}")
+    public Vet patch(@PathParam("id") String id, JsonNode patch) {
+        return restOperations.patch(id, patch, vetRepository);
+    }
 
     @GET
     public List<Vet> findAll() {
-        return vetRepository.findAll();
+        List<Vet> results = vetRepository.findOnePage();
+        Collections.sort(results);
+        return results;
     }
 }

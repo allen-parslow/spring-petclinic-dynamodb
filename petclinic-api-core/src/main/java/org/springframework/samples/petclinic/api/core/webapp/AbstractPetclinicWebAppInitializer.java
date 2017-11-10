@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.api.core;
+package org.springframework.samples.petclinic.api.core.webapp;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.transport.servlet.CXFServlet;
