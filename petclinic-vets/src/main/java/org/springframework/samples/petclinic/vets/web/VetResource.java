@@ -15,9 +15,7 @@
  */
 package org.springframework.samples.petclinic.vets.web;
 
-import com.amazonaws.services.s3.model.Owner;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.samples.petclinic.api.core.rest.RestOperations;
 import org.springframework.samples.petclinic.vets.model.Vet;
@@ -26,7 +24,6 @@ import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,6 +39,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
  */
 @Path("/vets")
 @Component
+@Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class VetResource {
@@ -56,7 +54,7 @@ public class VetResource {
     }
 
     @GET
-    public List<Vet> findAll() {
+    public List<Vet> search() {
         List<Vet> results = vetRepository.findOnePage();
         Collections.sort(results);
         return results;

@@ -34,4 +34,6 @@ import java.util.Map;
 public interface OwnerRepository extends SimpleCrudRepository<Owner, String> {
 
     List<Owner> findByLastName(String lastName);
+
+    List<Owner> findOnePage();
 }

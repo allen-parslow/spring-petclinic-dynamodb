@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.api.core.json;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +33,7 @@ public class ObjectMapperFactory {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(NON_NULL);
         objectMapper.setSerializationInclusion(NON_EMPTY);
-
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         SimpleModule module = new SimpleModule();
         module.setDeserializerModifier(new LoggingEnumDeserializer());
         objectMapper.registerModule(module);

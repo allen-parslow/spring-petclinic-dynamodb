@@ -17,7 +17,7 @@ package org.springframework.samples.petclinic.customers.web;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.samples.petclinic.api.core.rest.RestOperations;
 import org.springframework.samples.petclinic.customers.model.Owner;
 import org.springframework.samples.petclinic.customers.model.OwnerRepository;
 import org.springframework.stereotype.Component;
@@ -26,8 +26,10 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import java.util.List;
+import java.util.UUID;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * @author Juergen Hoeller
@@ -41,26 +43,49 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Component
 @Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class OwnerResource {
 
     private final OwnerRepository ownerRepository;
-
-    @POST
-    public void createOwner(@Valid Owner owner) {
-        ownerRepository.update(owner);
-    }
+    private final RestOperations restOperations;
 
     @GET
-    @Path(value = "/{ownerId}")
-    public Owner findOwner(@PathParam("ownerId") String ownerId) {
-        return ownerRepository.read(ownerId);
+    @Path("/{id}")
+    public Owner findById(@PathParam("id") String id) {
+        Owner entity = ownerRepository.read(id);
+        if (entity == null) {
+            throw new WebApplicationException(404);
+        }
+        return entity;
+    }
+
+    @POST
+    public Owner create(@Valid Owner entity) {
+        entity.setId(UUID.randomUUID().toString());
+        ownerRepository.update(entity);
+        return entity;
     }
 
     @PUT
-    @Path("/{ownerId}")
-    public Owner updateOwner(@PathParam("ownerId") String ownerId, JsonNode patch) {
-        return null;
+    @Path("/{id}")
+    public Owner update(@PathParam("id") String id, @Valid Owner entity) {
+        ownerRepository.update(entity);
+        return entity;
+    }
+
+
+    @PATCH
+    @Path("/{id}")
+    public Owner patch(@PathParam("id") String id, JsonNode patch) {
+        return restOperations.patch(id, patch, ownerRepository);
+    }
+
+    @GET
+    public List<Owner> search(@QueryParam("q") String query) {
+        if (!isEmpty(query)) {
+            return ownerRepository.findByLastName(query);
+        } else {
+            return ownerRepository.findOnePage();
+        }
     }
 }

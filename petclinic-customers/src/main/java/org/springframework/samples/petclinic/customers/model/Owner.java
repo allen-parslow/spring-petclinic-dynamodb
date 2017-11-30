@@ -21,8 +21,8 @@ import lombok.*;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -51,6 +51,7 @@ public class Owner {
     private String lastName;
     private String address;
     private String city;
+    private String state;
 
     @NotEmpty
     @Digits(fraction = 0, integer = 10)
@@ -58,7 +59,7 @@ public class Owner {
 
     @JsonIgnore
     @DynamoDBIgnore
-    private Set<Pet> pets;
+    private List<Pet> pets;
 
     public Owner(String id) {
         this.id = id;
@@ -66,9 +67,9 @@ public class Owner {
 
     @JsonIgnore
     @DynamoDBIgnore
-    protected Set<Pet> getPetsInternal() {
+    protected List<Pet> getPetsInternal() {
         if (this.pets == null) {
-            this.pets = new HashSet<>();
+            this.pets = new ArrayList<>();
         }
         return this.pets;
     }
